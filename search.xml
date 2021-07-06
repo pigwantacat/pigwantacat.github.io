@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>稀疏数组</title>
+      <link href="/2021/07/06/%E7%A8%80%E7%96%8F%E6%95%B0%E7%BB%84/"/>
+      <url>/2021/07/06/%E7%A8%80%E7%96%8F%E6%95%B0%E7%BB%84/</url>
+      
+        <content type="html"><![CDATA[<h1 id="稀疏数组"><a href="#稀疏数组" class="headerlink" title="稀疏数组"></a>稀疏数组</h1><p>参考于：<a href="https://blog.csdn.net/baolingye/article/details/99943083">https://blog.csdn.net/baolingye/article/details/99943083</a></p><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>当一个数组中大部分元素为０，或者为同一个值的数组时，可以使用稀疏数组来保存该数组，稀疏数组的处理方法是：</p><ul><li>记录数组一共有几行几列，有多少个不同的值</li><li>把具有不同值的元素的行列及值记录在一个小规模的数组中，从而缩小程序的规模</li></ul><h2 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h2><p>稀疏数组大小为**(n+1)<em>3</em>*(n为数组中有效元素的个数，+1为第一行的记录数，3为行、列、值三列)</p><ul><li>第一行第一列记录原始数组总行数，第一行第二列记录原始数组总列数，第一行第三列原始数组中的总有效元素个数</li><li>第二行记录第一个有效元素的行、列、值</li><li>第三行记录第二个有效元素的行、列、值</li><li>……</li></ul><p><img src="https://i.loli.net/2021/04/22/9VUMLg6PwzBiKNZ.png" alt="20190821103853197"></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Java基础 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 数组 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>2021上半年理财小结</title>
       <link href="/2021/07/04/2021%E4%B8%8A%E5%8D%8A%E5%B9%B4%E7%90%86%E8%B4%A2%E5%B0%8F%E7%BB%93/"/>
       <url>/2021/07/04/2021%E4%B8%8A%E5%8D%8A%E5%B9%B4%E7%90%86%E8%B4%A2%E5%B0%8F%E7%BB%93/</url>
