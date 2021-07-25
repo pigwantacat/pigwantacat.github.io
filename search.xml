@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>流式计算</title>
+      <link href="/2021/07/25/%E6%B5%81%E5%BC%8F%E8%AE%A1%E7%AE%97/"/>
+      <url>/2021/07/25/%E6%B5%81%E5%BC%8F%E8%AE%A1%E7%AE%97/</url>
+      
+        <content type="html"><![CDATA[<h1 id="流式计算"><a href="#流式计算" class="headerlink" title="流式计算"></a>流式计算</h1><p>流的基本方法：<a href="https://www.cnblogs.com/gaopengfirst/p/10813803.html">java1.8新特性之stream流式算法 - 王者之巅 - 博客园 (cnblogs.com)</a></p><h2 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h2><h3 id="题目要求"><a href="#题目要求" class="headerlink" title="题目要求"></a>题目要求</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 题目：请按照给出数据，找出同时满足以下条件的用户</span></span><br><span class="line"><span class="comment"> * 也即以下条件：</span></span><br><span class="line"><span class="comment"> * 1、全部满足偶数ID</span></span><br><span class="line"><span class="comment"> * 2、年龄大于24</span></span><br><span class="line"><span class="comment"> * 3、用户名转为大写</span></span><br><span class="line"><span class="comment"> * 4、用户名字母倒排序</span></span><br><span class="line"><span class="comment"> * 5、只输出一个用户名字</span></span><br><span class="line"><span class="comment"> **/</span></span><br></pre></td></tr></table></figure><h3 id="实体类"><a href="#实体类" class="headerlink" title="实体类"></a>实体类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="meta">@NoArgsConstructor</span></span><br><span class="line"><span class="meta">@Accessors(chain = true)</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> id;</span><br><span class="line">    <span class="keyword">private</span> String userName;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h3 id="构造测试数据"><a href="#构造测试数据" class="headerlink" title="构造测试数据"></a>构造测试数据</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">User u1 = <span class="keyword">new</span> User(<span class="number">11</span>, <span class="string">&quot;a&quot;</span>, <span class="number">23</span>);</span><br><span class="line">User u2 = <span class="keyword">new</span> User(<span class="number">12</span>, <span class="string">&quot;b&quot;</span>, <span class="number">24</span>);</span><br><span class="line">User u3 = <span class="keyword">new</span> User(<span class="number">13</span>, <span class="string">&quot;c&quot;</span>, <span class="number">22</span>);</span><br><span class="line">User u4 = <span class="keyword">new</span> User(<span class="number">14</span>, <span class="string">&quot;d&quot;</span>, <span class="number">28</span>);</span><br><span class="line">User u5 = <span class="keyword">new</span> User(<span class="number">16</span>, <span class="string">&quot;e&quot;</span>, <span class="number">26</span>);</span><br><span class="line">List&lt;User&gt; list = Arrays.asList(u1, u2, u3, u4, u5);</span><br></pre></td></tr></table></figure><h3 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">list.stream()</span><br><span class="line">    .filter(u-&gt;&#123;<span class="keyword">return</span> u.getId()%<span class="number">2</span>==<span class="number">0</span>;&#125;)</span><br><span class="line">    .filter(u-&gt;&#123;<span class="keyword">return</span> u.getAge()&gt;<span class="number">24</span>;&#125;)</span><br><span class="line">    .map(u-&gt;&#123;<span class="keyword">return</span> u.getUserName().toUpperCase();&#125;)</span><br><span class="line">    .sorted((o1,o2)-&gt;&#123;<span class="keyword">return</span> o2.compareTo(o1);&#125;)</span><br><span class="line">    .limit(<span class="number">1</span>)</span><br><span class="line">    .forEach(System.out::println);</span><br><span class="line"></span><br><span class="line"><span class="comment">//运行结果：</span></span><br><span class="line"><span class="comment">//E</span></span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> Java基础 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 函数式接口 </tag>
+            
+            <tag> stream </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>方法重写</title>
       <link href="/2021/07/25/%E6%96%B9%E6%B3%95%E9%87%8D%E5%86%99/"/>
       <url>/2021/07/25/%E6%96%B9%E6%B3%95%E9%87%8D%E5%86%99/</url>
