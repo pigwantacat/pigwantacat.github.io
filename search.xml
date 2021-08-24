@@ -4,6 +4,56 @@
   
     
     <entry>
+      <title>JWT小结</title>
+      <link href="/2021/08/24/JWT%E5%B0%8F%E7%BB%93/"/>
+      <url>/2021/08/24/JWT%E5%B0%8F%E7%BB%93/</url>
+      
+        <content type="html"><![CDATA[<h1 id="JWT小结"><a href="#JWT小结" class="headerlink" title="JWT小结"></a>JWT小结</h1><p>参考文章：<a href="https://www.jianshu.com/p/576dbf44b2ae">什么是 JWT – JSON WEB TOKEN - 简书 (jianshu.com)</a></p><h2 id="什么是JWT"><a href="#什么是JWT" class="headerlink" title="什么是JWT"></a>什么是JWT</h2><blockquote><p>JSON WEB TOKEN (JWT), 是为了在网络应用环境间传递声明而执行的一种基于JSON的开放标准（<a href="https://link.jianshu.com/?t=https://tools.ietf.org/html/rfc7519">(RFC 7519</a>).该token被设计为紧凑且安全的，特别适用于分布式站点的单点登录（SSO）场景。JWT的声明一般被用来在身份提供者和服务提供者间传递被认证的用户身份信息，以便于从资源服务器获取资源，也可以增加一些额外的其它业务逻辑所必须的声明信息，该token也可直接被用于认证，也可被加密。</p></blockquote><h2 id="token的构成"><a href="#token的构成" class="headerlink" title="token的构成"></a>token的构成</h2><p>token由<code>头部</code>、<code>载荷</code>、<code>签名</code>三部分组成</p><h3 id="头部（header）"><a href="#头部（header）" class="headerlink" title="头部（header）"></a>头部（header）</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &#x27;typ&#x27;: &#x27;JWT&#x27;,<span class="comment">//声明类型</span></span><br><span class="line">  &#x27;alg&#x27;: &#x27;HS256&#x27;<span class="comment">//加密算法</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//将头部进行base64加密后得到第一部分</span></span><br><span class="line">eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9</span><br></pre></td></tr></table></figure><h3 id="载荷（playload）"><a href="#载荷（playload）" class="headerlink" title="载荷（playload）"></a>载荷（playload）</h3><p>载荷用于存放要保存的信息，如用户id、权限、<strong>过期时间</strong>等。</p><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;sub&quot;</span>: <span class="string">&quot;1234567890&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;John Doe&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;admin&quot;</span>: <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//将载荷进行base64加密后得到第二部分</span></span><br><span class="line">eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9</span><br></pre></td></tr></table></figure><h3 id="签名（signature）"><a href="#签名（signature）" class="headerlink" title="签名（signature）"></a>签名（signature）</h3><p>由三部分组成：加密后的头部header，加密后的载荷playload，加盐secret</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// javascript</span></span><br><span class="line"><span class="keyword">var</span> encodedString = base64UrlEncode(header) + <span class="string">&#x27;.&#x27;</span> + base64UrlEncode(payload);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> signature = HMACSHA256(encodedString, <span class="string">&#x27;secret&#x27;</span>); </span><br><span class="line"></span><br><span class="line"><span class="comment">//将加密后的头部和载荷结合起来，使用header中的加密算法进行加盐secret组合加密，得到第三部分</span></span><br><span class="line">TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ</span><br></pre></td></tr></table></figure><h3 id="完整的token"><a href="#完整的token" class="headerlink" title="完整的token"></a>完整的token</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ</span><br></pre></td></tr></table></figure><h2 id="如何验证token是否有效"><a href="#如何验证token是否有效" class="headerlink" title="如何验证token是否有效"></a>如何验证token是否有效</h2><p>获取token的前两部分，即加密后的头部和载荷</p><ul><li>检查token是否过期：将载荷解密后检查过期时间</li><li>验证token是否未被篡改：再次使用加密后的头部和载荷生成签名，比较两次签名是否相同</li></ul><h2 id="token由谁颁发"><a href="#token由谁颁发" class="headerlink" title="token由谁颁发"></a>token由谁颁发</h2><p>用户在第一次登录后，用认证中心统一颁发token</p><h2 id="token如何传输"><a href="#token如何传输" class="headerlink" title="token如何传输"></a>token如何传输</h2><p>客户端在进行请求的时候，将token存放在cookie中或者存放在请求头中</p><h2 id="token续签"><a href="#token续签" class="headerlink" title="token续签"></a>token续签</h2><h3 id="使用redis缓存"><a href="#使用redis缓存" class="headerlink" title="使用redis缓存"></a>使用redis缓存</h3><p>认证中心在颁发token的同时，在redis设置key为<code>用户数据（用户id或其他特征信息）+客户端环境特征（IP、UA、网卡MAC等），最好再将key进行加密，如MD5</code>，并设置对应的过期时间。</p><p>当收到token时，检查在redis是否过期：</p><ol><li>如果过期则要求用户重新登录，</li><li>否则检查时间是否过半，如果没有则按照正常流程执行，</li><li>否则在redis中为key增加一半的有效时间</li></ol><h3 id="使用两个token"><a href="#使用两个token" class="headerlink" title="使用两个token"></a>使用两个token</h3><p>认证中心在颁发token的时候，颁发两个token，一个为正常使用token，一个为续签token，续签token过期时间比正常使用token时间长一倍。</p><ol><li>当正常使用token未过期则按正常流程执行；</li><li>当正常使用token过期，续签token未过期，则重新签发两个新的token，延长其过期时间外其他信息完全相同；</li><li>如果续签token过期，则要求用户重新登录。</li></ol><p><strong>存在重复生成JWT的问题，解决办法：在认证中心设计一个Map，记录过去一段时间内（几秒钟）的原始JWT（key）和新生成的JWT（value），如果在一段时间发现同样的原始JWT，则返回相同的新JWT。</strong></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Java基础 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 网络 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>HTTPS和SSL</title>
+      <link href="/2021/08/24/HTTPS%E5%92%8CSSL/"/>
+      <url>/2021/08/24/HTTPS%E5%92%8CSSL/</url>
+      
+        <content type="html"><![CDATA[<h1 id="HTTPS和SSL"><a href="#HTTPS和SSL" class="headerlink" title="HTTPS和SSL"></a>HTTPS和SSL</h1><p>参考文章：<a href="https://blog.csdn.net/qq_40149612/article/details/82795656">SSL及其加密通信过程_Jxhacker的博客-CSDN博客_ssl加密过程</a>，<a href="https://blog.csdn.net/qq_38265137/article/details/90112705">SSL协议原理详解_曹世宏的博客-CSDN博客_ssl协议</a></p><h2 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h2><p>HTTP（Hyper TEXT Transfer Protocol超文本传输协议）是目前互联网上应用最为广泛的一种网络协议，用于在Web浏览器和网站服务器之间传递信息，但是HTTP协议以明文的方式发送内容，不提供任何数据加密，攻击者能够很轻易通过抓包的方式截取传输内容并读懂其中的信息，所以HTTP不适合传输一些比较私密的信息，为了解决HTTP这一缺陷，HTTPS（Hyper TEXT Transfer Protocol over Secure Socket Layer）协议出现。HTTPS是在HTTP的基础上加入SSL协议。传输以密文传输，保证数据传输的安全以及确认网站的真实性（数字证书）。</p><h2 id="SSL"><a href="#SSL" class="headerlink" title="SSL"></a>SSL</h2><p>SSL英文全称Secure Socket Layer，安全套接层，是一种为网络通信提供安全以及数据完整性的安全协议，它在传输层对网络进行加密。它主要是分为两层：</p><ul><li>SSL记录协议：为高层协议提供安全封装、压缩、加密等基本功能</li><li>SSL握手协议：用于在数据传输开始前进行通信双方的身份验证、加密算法的协商、交换密钥<br>OpenSSL是SSL的开源实现，它是作为密码学的安全开发包，提供相当强大全面的功能，囊括了主要的密码算法、常用的密钥和证书封装管理功能以及SSL协议，并提供了丰富的应用程序供测试或其它目的使用。它一共提供了8中对称加密算法和4中非对称加密算法。</li></ul><h2 id="SSL加密过程"><a href="#SSL加密过程" class="headerlink" title="SSL加密过程"></a>SSL加密过程</h2><ol><li>第一步：客户端A给出<code>客户端版本</code>+<code>一个随机数</code>+<code>自己支持的加密方式</code></li><li>第二步：服务器B返回<code>从客户端支持的加密方式中选择一种</code>+<code>一个随机数</code>+<code>安全证书</code></li><li>第三步：客户端A验证证书的有效性（以下是验证证书的步骤），然后再生成<code>一个随机数</code>，并使用证书中的公钥加密，发送给服务器B<ul><li>客户端通过浏览器内置的CA根证书，获取对应CA机构的公钥</li><li>服务器B返回自己的安全证书，客户端使用CA公钥解密被CA私钥加密的信息得到一个hash值，再使用证书中的hash算法生成hash值，比较两个hash值</li></ul></li><li>第四步：服务器B使用私钥解密这个随机数</li><li>第五步：通过第二步确认的加密方式和第一、二、三步生成的3个随机数生成一个对话秘钥，用于通信。</li></ol><p><strong>小结：HTTPS在验证证书阶段使用的是非对称加密（更安全），在数据传输阶段使用对称加密（更高效）。</strong></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Java基础 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 网络 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>01背包和完全背包</title>
       <link href="/2021/08/23/01%E8%83%8C%E5%8C%85%E5%92%8C%E5%AE%8C%E5%85%A8%E8%83%8C%E5%8C%85/"/>
       <url>/2021/08/23/01%E8%83%8C%E5%8C%85%E5%92%8C%E5%AE%8C%E5%85%A8%E8%83%8C%E5%8C%85/</url>
