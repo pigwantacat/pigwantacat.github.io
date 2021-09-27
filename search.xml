@@ -108,7 +108,7 @@
       <link href="/2021/08/23/JDK1-8%E6%96%B0%E7%89%B9%E6%80%A7/"/>
       <url>/2021/08/23/JDK1-8%E6%96%B0%E7%89%B9%E6%80%A7/</url>
       
-        <content type="html"><![CDATA[<h1 id="JDK1-8新特性"><a href="#JDK1-8新特性" class="headerlink" title="JDK1.8新特性"></a>JDK1.8新特性</h1><ol><li>lambda简化</li><li>stream流</li><li>新的hashmap、concurrentHashmap</li><li>元空间</li><li>接口中允许有静态方法和默认方法</li><li>localdatetime</li><li>optional</li></ol>]]></content>
+        <content type="html"><![CDATA[<h1 id="JDK1-8新特性"><a href="#JDK1-8新特性" class="headerlink" title="JDK1.8新特性"></a>JDK1.8新特性</h1><ol><li>lambda简化</li><li>stream流</li><li>新的hashmap、concurrentHashmap</li><li>元空间</li><li>接口中允许有静态方法和默认方法</li><li>localdatetime</li><li>optional</li><li>CompletableFuture</li></ol>]]></content>
       
       
       <categories>
