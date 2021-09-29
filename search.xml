@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>平衡二叉树调整</title>
+      <link href="/2021/09/29/%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91%E8%B0%83%E6%95%B4/"/>
+      <url>/2021/09/29/%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91%E8%B0%83%E6%95%B4/</url>
+      
+        <content type="html"><![CDATA[<h1 id="平衡二叉树调整"><a href="#平衡二叉树调整" class="headerlink" title="平衡二叉树调整"></a>平衡二叉树调整</h1><p>参考视频：<a href="https://www.bilibili.com/video/BV1Ro4y1S7wb?from=search&seid=1347340633041499968&spm_id_from=333.337.0.0">简单粗暴的方式解决平衡二叉树的调整_哔哩哔哩_bilibili</a></p><h2 id="LL型"><a href="#LL型" class="headerlink" title="LL型"></a>LL型</h2><p>右旋，右孩子变左孩子</p><p><img src="https://i.loli.net/2021/09/29/mhDLyVX7zE4vF6B.png" alt="image-20210929115632431"></p><h2 id="RR型"><a href="#RR型" class="headerlink" title="RR型"></a>RR型</h2><p>左旋，左孩子变右孩子</p><p><img src="https://i.loli.net/2021/09/29/1OtwNrz6KmTUIc5.png" alt="image-20210929115731480"></p><h2 id="LR型"><a href="#LR型" class="headerlink" title="LR型"></a>LR型</h2><p>黄色节点成根节点，其左孩子变右孩子，右孩子变左孩子</p><p><img src="https://i.loli.net/2021/09/29/4YZyI6XS7Kzuahk.png" alt="image-20210929115821162"></p><h2 id="RL型"><a href="#RL型" class="headerlink" title="RL型"></a>RL型</h2><p>黄色节点成根节点，其左孩子变右孩子，右孩子变左孩子</p><p><img src="https://i.loli.net/2021/09/29/D1Two9EXbYpPzN2.png" alt="image-20210929120212360"></p><h2 id="确定类型"><a href="#确定类型" class="headerlink" title="确定类型"></a>确定类型</h2><p>由不平衡的节点向新插入的节点遍历，取前3个结点连起来的形状</p><p>如LL、RR、LR、RL</p><h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>首先确定类型是LL、RR、LR、RL中的那种</p><p>如果是LL或RR，先右旋或左旋，再把变换前第2个结点（变换后的根节点）的子节点的位置</p><p>如果是LL，因为要右旋，则把其右孩子变为第1个结点（变换前的根节点）的左孩子</p><p>如果是RR，因为要左旋，则把其左孩子变为第1个结点（变换前的根节点）的右孩子</p><p>如果是LR或RL，直接将第3个结点变为根节点，即将3个结点中最下方或处于中间那个结点作为根节点</p><p>把它的左孩子变为右孩子，右孩子变为左孩子，</p><p>即左孩子去它（变换后为根节点）的左子树做右孩子。右孩子去它（变换后为根节点）的右子树做左孩子</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Java基础 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 树 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Redis：5大基本数据类型底层实现（初探）</title>
       <link href="/2021/09/16/Redis%EF%BC%9A5%E5%A4%A7%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%EF%BC%88%E5%88%9D%E6%8E%A2%EF%BC%89/"/>
       <url>/2021/09/16/Redis%EF%BC%9A5%E5%A4%A7%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%EF%BC%88%E5%88%9D%E6%8E%A2%EF%BC%89/</url>
@@ -673,6 +698,8 @@
         <tags>
             
             <tag> sql </tag>
+            
+            <tag> 树 </tag>
             
         </tags>
       
